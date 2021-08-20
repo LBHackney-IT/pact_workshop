@@ -18,6 +18,7 @@ You will need *Docker* installed on your system.
 ####
 
 > Generating the consumer Pact contract
+- Set the the `bookId` within `./tests/books.pact.test.js` to one that was created along with the database, or the provider tests will fail as the `_id` property won't match.
 - Run `npm install` to install the test dependencies.
 - Run `npm run test:consumer` to run the consumer integration tests and generate the Pact file.
 - The generated pact file will be published to the broker and can be located at `./pacts`
@@ -29,5 +30,4 @@ You will need *Docker* installed on your system.
 
 > Testing the provider against the consumer contract
 - Run `npm run test:provider` to run the provider tests against the pact broker
-
 ####
