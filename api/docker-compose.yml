@@ -1,0 +1,20 @@
+version: "3"
+services:
+       express-web-api:
+           container_name: express-api
+           image: express_mongo_web_app
+           restart: always
+           build: .
+           ports:
+             - "3001:3001"
+           depends_on:
+             - mongo
+       mongo:
+            container_name: mongodb
+            image: mongo:3.6.3
+            ports:
+              - "27017:27017"
+       mongo-seed:
+            build: ./database/mongo-seed
+            links:
+              - mongo

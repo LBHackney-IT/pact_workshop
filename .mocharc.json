@@ -1,0 +1,7 @@
+{
+    "bail": true,
+    "reporter": "spec",
+    "colors": true,
+    "timeout": 15000,
+    "exit": true
+}
