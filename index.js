@@ -12,14 +12,14 @@ exports.getMeBooks = endpoint => {
   })
 }
 
-exports.getMeBook = endpoint => {
+exports.getMeBook = (endpoint, bookId) => {
   const url = endpoint.url
   const port = endpoint.port
 
   return axios.request({
     method: "GET",
     baseURL: `${url}:${port}`,
-    url: "/api/books/611e8045a2d819d24ec3ed47",
+    url: `/api/books/${bookId}`,
     headers: { Accept: "application/json; charset=utf-8" },
   })
 }

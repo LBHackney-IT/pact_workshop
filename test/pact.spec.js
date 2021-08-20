@@ -8,6 +8,7 @@ const { eachLike, like } = Matchers
 describe("The Book API", () => {
   let url = "http://localhost"
   const port = 9001
+  const bookId = "611f8175eb38ae9b03504417"   // set the object id for the single GET request here
 
   const provider = new Pact({
     port: port,
@@ -76,7 +77,7 @@ describe("The Book API", () => {
         uponReceiving: "a request for a single book",
         withRequest: {
           method: "GET",
-          path: "/api/books/611f5ce5a843b14a73abf283",
+          path: `/api/books/${bookId}`,
           headers: {
             Accept: "application/json; charset=utf-8",
           },
@@ -87,7 +88,7 @@ describe("The Book API", () => {
             "Content-Type": "application/json; charset=utf-8",
           },
           body: {
-            _id: like("611f5ce5a843b14a73abf283"),
+            _id: like(bookId),
             title: "Wuthering Heights",
             author: "Jane Austen"
           },
@@ -103,7 +104,7 @@ describe("The Book API", () => {
         url: url,
         port: port,
       }
-      getMeBook(urlAndPort).then(response => {
+      getMeBook(urlAndPort, bookId).then(response => {
         expect(response.data._id[0]).to.exist;
         expect(response.data.title[0]).to.exist;
         expect(response.data.author[0]).to.exist;
