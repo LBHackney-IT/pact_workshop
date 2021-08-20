@@ -1,7 +1,9 @@
 const expect = require("chai").expect
 const path = require("path")
-const { Pact } = require("@pact-foundation/pact")
+const { Pact, Matchers } = require("@pact-foundation/pact")
 const { getMeBooks, getMeBook } = require("../index")
+const { eachLike, like } = Matchers
+
 
 describe("The Book API", () => {
   let url = "http://localhost"
@@ -16,31 +18,6 @@ describe("The Book API", () => {
     provider: "BookService",
     pactfileWriteMode: "merge",
   })
-
-  const EXPECTED_GET_BOOKS_RESPONSE_BODY = [
-    {
-      "_id": "611e8045a2d819d24ec3ed45",
-      "title": "Dune",
-      "author": "Frank Herbert"
-    },
-    {
-      "_id": "611e8045a2d819d24ec3ed46",
-      "title": "Heart of Darkness",
-      "author": "Joseph Conrad"
-    },
-    {
-      "_id": "611e8045a2d819d24ec3ed47",
-      "title": "Wuthering Heights",
-      "author": "Jane Austen"
-    }
-  ]
-
-  const EXPECTED_GET_BOOK_RESPONSE_BODY = {
-    
-    "_id": "611e8045a2d819d24ec3ed47",
-    "title": "Wuthering Heights",
-    "author": "Jane Austen"
-  }
 
   before(() => provider.setup())
 
@@ -65,7 +42,12 @@ describe("The Book API", () => {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
           },
-          body: EXPECTED_GET_BOOKS_RESPONSE_BODY,
+          body: eachLike({
+              _id: "611f5ce5a843b14a73abf285",
+              title: "Heart of Darkness",
+              author: "Joseph Conrad"
+            },
+          ),
         },
       }
       provider.addInteraction(interaction).then(() => {
@@ -79,7 +61,9 @@ describe("The Book API", () => {
         port: port,
       }
       getMeBooks(urlAndPort).then(response => {
-        expect(response.data).to.eql(EXPECTED_GET_BOOKS_RESPONSE_BODY)
+        expect(response.data[0]._id).to.exist;
+        expect(response.data[0].title).to.exist;
+        expect(response.data[0].author).to.exist;
         done()
       }, done)
     })
@@ -92,7 +76,7 @@ describe("The Book API", () => {
         uponReceiving: "a request for a single book",
         withRequest: {
           method: "GET",
-          path: "/api/books/611e8045a2d819d24ec3ed47",
+          path: "/api/books/611f5ce5a843b14a73abf283",
           headers: {
             Accept: "application/json; charset=utf-8",
           },
@@ -102,7 +86,11 @@ describe("The Book API", () => {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
           },
-          body: EXPECTED_GET_BOOK_RESPONSE_BODY,
+          body: {
+            _id: like("611f5ce5a843b14a73abf283"),
+            title: "Wuthering Heights",
+            author: "Jane Austen"
+          },
         },
       }
       provider.addInteraction(interaction).then(() => {
@@ -116,7 +104,9 @@ describe("The Book API", () => {
         port: port,
       }
       getMeBook(urlAndPort).then(response => {
-        expect(response.data).to.eql(EXPECTED_GET_BOOK_RESPONSE_BODY)
+        expect(response.data._id[0]).to.exist;
+        expect(response.data.title[0]).to.exist;
+        expect(response.data.author[0]).to.exist;
         done()
       }, done)
     })
