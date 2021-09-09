@@ -14,7 +14,7 @@ You will need *Docker* installed on your system.
 > Start the Express API
 - Run `npm --prefix api/ install` to install the API dependencies
 - Run `docker-compose -f api/docker-compose.yml up -d`
-- To confirm the application is working, open a browser and navigate to `localhost:3001`
+- To confirm the application is working, open a browser and navigate to `localhost:3002`
 ####
 
 > Generating the consumer Pact contract
