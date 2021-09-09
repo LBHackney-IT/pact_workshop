@@ -1,6 +1,6 @@
 const { Verifier } = require('@pact-foundation/pact');
 let opts = {
-    providerBaseUrl: "http://localhost:3001/",
+    providerBaseUrl: "http://localhost:3002/",
     pactBrokerUrl: "http://localhost:9292/",
     provider: "BookService",
     publishVerificationResult: true,

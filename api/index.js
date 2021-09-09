@@ -1,7 +1,7 @@
 const express = require("express");
 const connectDb = require("./database/connection");
 const routes = require("./routes/routes");
-const PORT = 3001;
+const PORT = 3002;
 const HOST = process.env.HOST || "localhost";
 
 const app = express();
